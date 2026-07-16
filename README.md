@@ -1,8 +1,14 @@
 # VirtualSMS Python SDK
 
-Python client for [VirtualSMS](https://virtualsms.io) — SMS verification using real physical SIM cards.
+VirtualSMS is an account verification platform that combines real carrier mobile numbers, matching-country proxies and a private cloud browser into one connected workflow.
 
-Unlike VoIP-based services, VirtualSMS uses real SIM cards in hardware modems connected to European and US cellular networks. This means near-100% delivery rates on platforms like WhatsApp, Telegram, and banking apps that block virtual numbers.
+Built for developers and AI agents: REST API, hosted MCP server, SDKs.
+
+This package is the official Python client for **VirtualSMS SMS verification** — request a real carrier number, not a VoIP number, wait for the code, done. For the rest of the platform (proxies, the private cloud browser, number rentals), use the [REST API](https://virtualsms.io/docs) or the [hosted MCP server](https://virtualsms.io/mcp) directly — see "What this SDK does (and doesn't)" below for exactly what's implemented in this package.
+
+**Who it's for:** developers and AI agents automating account creation, sign-up, or verification steps — bots, growth tooling, QA pipelines, agent frameworks — anywhere you need a number a platform will actually accept.
+
+**Why VirtualSMS:** real carrier-issued numbers, not VoIP, so codes land on WhatsApp, Telegram, banking apps, and crypto exchanges that block virtual numbers. Pricing is public and live stock is shown before you commit — no surprise unavailability after you've paid. And it's one connected account across numbers, proxies, and the cloud browser, reachable the same way whether you call the REST API, the MCP server, or an SDK.
 
 ## Installation
 
@@ -33,6 +39,23 @@ print(f"Verification code: {code}")
 # Mark as done
 client.done(activation.activation_id)
 ```
+
+## What this SDK does (and doesn't)
+
+This package wraps VirtualSMS's **SMS verification** endpoints — that's it:
+
+- Get account balance (`get_balance`)
+- Request a number for a service (`get_number`)
+- Poll or wait for the incoming SMS code (`get_status`, `wait_for_code`)
+- Mark an activation done, or cancel it for a refund (`done`, `cancel`)
+- Look up prices for services/countries (`get_prices`)
+
+It does **not** currently wrap proxies, number rentals, or the cloud browser, even though the wider VirtualSMS platform supports all three. For those:
+
+- **REST API** (full platform — numbers, proxies, cloud browser): [virtualsms.io/docs](https://virtualsms.io/docs)
+- **Hosted MCP server** (lets AI agents drive the full platform, including proxies and the cloud browser): [virtualsms.io/mcp](https://virtualsms.io/mcp)
+
+> Note: this package ships a `Rental` data class for forward compatibility, but no method in this SDK currently creates or manages a rental — that's on the roadmap, coming soon. Use the REST API for rentals today.
 
 ## Services
 
@@ -89,7 +112,7 @@ Cancel activation and get automatic refund.
 ### `get_prices(service=None, country=None)`
 Get current pricing for services and countries.
 
-## Why Real SIM Cards?
+## Why Real Carrier Numbers?
 
 Most SMS verification services use VoIP numbers that get blocked:
 
@@ -98,7 +121,7 @@ Most SMS verification services use VoIP numbers that get blocked:
 - Banking apps reject non-mobile numbers
 - Crypto exchanges require real carrier numbers
 
-VirtualSMS solves this with physical SIM cards in real mobile networks. [Learn more](https://virtualsms.io).
+VirtualSMS uses real carrier-issued numbers, not VoIP. [Learn more](https://virtualsms.io).
 
 ## Migrating from DaisySMS?
 
@@ -116,10 +139,24 @@ See the [migration guide](https://virtualsms.io/daisysms-alternative).
 
 ## Links
 
-- **Website:** [virtualsms.io](https://virtualsms.io)
-- **API Docs:** [virtualsms.io/api](https://virtualsms.io/api)
+### Product
+
+- **Homepage:** [virtualsms.io](https://virtualsms.io)
+- **Docs:** [virtualsms.io/docs](https://virtualsms.io/docs)
+- **MCP server:** [virtualsms.io/mcp](https://virtualsms.io/mcp)
 - **Pricing:** [virtualsms.io/pricing](https://virtualsms.io/pricing)
+- **REST API:** [virtualsms.io/api/v1](https://virtualsms.io/api/v1)
 - **GitHub:** [github.com/virtualsms-io](https://github.com/virtualsms-io)
+
+### Ecosystem
+
+VirtualSMS's MCP server is listed across the major MCP directories:
+
+- **Official MCP registry:** `io.github.virtualsms-io/sms` ([registry.modelcontextprotocol.io](https://registry.modelcontextprotocol.io))
+- **Glama:** [VirtualSMS on Glama](https://glama.ai/mcp/servers)
+- **Smithery:** [smithery.ai/servers/virtualsms/virtualsms-mcp](https://smithery.ai/servers/virtualsms/virtualsms-mcp)
+- **mcp.so:** [mcp.so/servers/mcp-server-virtualsms-io](https://mcp.so/servers/mcp-server-virtualsms-io)
+- **npm (MCP server package):** [virtualsms-mcp](https://www.npmjs.com/package/virtualsms-mcp)
 
 ## License
 
