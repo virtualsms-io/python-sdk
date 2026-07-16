@@ -81,6 +81,15 @@ banned_num() {
     return 0
 }
 
+# banned_re <reason> <label> <ERE>  - case-insensitive regex match
+# For bans that need alternation. Keep patterns PRECISE: a guard that flags
+# legitimate copy gets deleted, which is worse than no guard at all.
+banned_re() {
+    _out=$(git grep -I -n -i -E -e "$3" -- . $SCOPE 2>/dev/null)
+    [ -n "$_out" ] && emit "$_out" "$2" "$1"
+    return 0
+}
+
 # --- wrong numbers ------------------------------------------------------
 banned_num "canonical services count is 2500+" "700+ services" '700\+ services'
 banned_num "canonical services count is 2500+" "500+ services" '500\+ services'
@@ -107,6 +116,29 @@ banned "infra leak; never describe our fleet" "our fleet"
 banned "infra leak; never reveal where our hardware sits" "our EU"
 banned "infra leak; never describe our hardware" "our hardware"
 banned "infra leak; never reveal port or SIM counts" "ports across"
+
+# --- infrastructure LOCATION leak (our-fleet location) ------------------
+# The OUR-vs-PRODUCT test: saying where OUR SIMs/fleet/hardware sit is banned;
+# describing the PRODUCT or its coverage is fine.
+#
+# These patterns are deliberately narrow. They must NOT fire on legitimate
+# copy, all of which is verified to pass:
+#   "2500+ services in 145+ countries"      (coverage)
+#   "real carrier-issued SIM cards across 145+ countries"
+#   "Vodafone", "O2", "T-Mobile", "Telekom" (carrier names are allowed)
+#   "a German number runs on Telekom/Vodafone/O2"
+# Anchor on a location word next to OUR inventory, never on a bare region
+# word and never on a country/carrier name.
+LOC='european|eu|us|usa|europe|united states'
+banned_re "infra leak; never say where our SIMs are" \
+    "SIM cards in <region>" "sim cards? in (the )?($LOC)([^a-zA-Z]|\$)"
+banned_re "infra leak; never say where our SIMs are" \
+    "SIMs in <region>" "sims? in (the )?($LOC)([^a-zA-Z]|\$)"
+banned_re "infra leak; never say where our SIMs are" \
+    "<region> mobile networks" "($LOC) mobile networks"
+banned_re "infra leak; never say where our fleet is" \
+    "our <inventory> are in <region>" \
+    "our (sims?|numbers|fleet|infrastructure|hardware) (are|is|sit|sits|live|lives) in"
 
 # --- supplier leak ------------------------------------------------------
 banned "supplier leak; we sell via our own platform" "HeroSMS"
