@@ -48,11 +48,11 @@ class NoNumbersError(VirtualSMSError):
 
 
 class VirtualSMS:
-    """Client for VirtualSMS API: SMS verification with real carrier SIMs.
+    """Client for VirtualSMS API: SMS verification with real physical SIM cards.
 
-    VirtualSMS provides real carrier-issued mobile numbers, not VoIP, across
-    145+ countries and 2500+ services. Unlike VoIP services, these numbers pass
-    carrier-type checks on WhatsApp, Telegram, and other platforms.
+    VirtualSMS provides real physical SIM cards, not VoIP, on carrier networks
+    across 145+ countries and 2500+ services. Unlike VoIP services, these
+    numbers pass carrier-type checks on WhatsApp, Telegram, and other platforms.
 
     Quick start:
         >>> from virtualsms import VirtualSMS

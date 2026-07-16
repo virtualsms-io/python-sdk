@@ -101,7 +101,11 @@ banned "canonical min price per code is \$0.05" '$0.02'
 banned "canonical success framing is 95%+" "near-100"
 
 # --- banned framing -----------------------------------------------------
-banned "banned framing; say real carrier SIMs" "physical SIM"
+# NOTE: "physical SIM" is deliberately NOT banned. Real physical SIM cards are
+# the product and an approved differentiator (operator ruling 2026-07-16):
+# "real physical sims is ok! its actually a differentiator, and nothing is
+# leaking about location here". The SIM is the PRODUCT and is allowed; the
+# modem and where it sits are OUR INFRASTRUCTURE and stay banned below.
 banned "unverifiable ranking claim" "Ranked #1"
 banned "unverifiable ranking claim" "#1 on"
 banned "unverifiable ranking claim" "#1 in"

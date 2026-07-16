@@ -9,7 +9,7 @@ setup(
         "VirtualSMS is an account verification platform that combines real carrier "
         "mobile numbers, matching-country proxies and a private cloud browser into "
         "one connected workflow. This package is the Python SDK for SMS verification: "
-        "real carrier numbers, not VoIP, across 2500+ services in 145+ countries."
+        "real physical SIM cards, not VoIP, across 2500+ services in 145+ countries."
     ),
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",

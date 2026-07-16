@@ -8,7 +8,7 @@ This package is the official Python client for **VirtualSMS SMS verification**: 
 
 **Who it's for:** developers and AI agents automating account creation, sign-up, or verification steps (bots, growth tooling, QA pipelines, agent frameworks), anywhere you need a number a platform will actually accept.
 
-**Why VirtualSMS:** real carrier-issued numbers, not VoIP, so codes land on WhatsApp, Telegram, banking apps, and crypto exchanges that block virtual numbers. Pricing is public and live stock is shown before you commit, so there's no surprise unavailability after you've paid. And it's one connected account across numbers, proxies, and the cloud browser, reachable the same way whether you call the REST API, the MCP server, or an SDK.
+**Why VirtualSMS:** real physical SIM cards, not VoIP, so codes land on WhatsApp, Telegram, banking apps, and crypto exchanges that block virtual numbers. Pricing is public and live stock is shown before you commit, so there's no surprise unavailability after you've paid. And it's one connected account across numbers, proxies, and the cloud browser, reachable the same way whether you call the REST API, the MCP server, or an SDK.
 
 ## Installation
 
@@ -121,7 +121,7 @@ Most SMS verification services use VoIP numbers that get blocked:
 - Banking apps reject non-mobile numbers
 - Crypto exchanges require real carrier numbers
 
-VirtualSMS uses real carrier-issued numbers, not VoIP. [Learn more](https://virtualsms.io).
+VirtualSMS uses real physical SIM cards, not VoIP. [Learn more](https://virtualsms.io).
 
 ## Migrating from DaisySMS?
 
