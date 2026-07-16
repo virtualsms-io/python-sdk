@@ -1,0 +1,47 @@
+name: Positioning guard
+
+# Runs the canon-derived positioning guard on every push and pull request.
+#
+# This is the only CI in this repo, by design. It is a copy guard, not a test
+# harness: it asserts that no tracked file contradicts the canonical brand
+# values. See scripts/check-positioning.sh for what it enforces and why.
+#
+# Exit codes that fail this job:
+#   1  banned copy found in a tracked file
+#   2  harness error (missing or unreadable rules, not a git repo)
+#   3  the vendored canon is stale or was hand-edited
+#
+# WHAT THIS JOB DOES NOT PROVE
+# The Vault is not reachable from a GitHub runner, so the guard runs off the
+# vendored scripts/canonical.json and prints a loud "FRESHNESS NOT VERIFIED"
+# banner. It still fails on exit 3 when the in-repo hash chain is broken, so a
+# hand-edited vendor is caught here. A vendored canon that is stale but
+# internally consistent is NOT caught here and cannot be: only a run with the
+# Vault in reach (a developer machine, or VIRTUALSMS_CANON set) verifies that
+# the ban list is current. A green check here means "no banned strings", never
+# "the copy is accurate". See canonical.json _guardLimit.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check-positioning:
+    name: Positioning guard
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Invoked directly rather than through a language toolchain. The guard is
+      # POSIX sh and needs only git, sh and sha256sum, all present on the
+      # runner. Routing it through npm/pip/bundler/dotnet would add a runtime
+      # dependency to a check that has nothing to do with the language, and
+      # would give the guard a way to not run at all when that toolchain breaks.
+      # This file is kept byte-identical across the five SDK repos so that any
+      # drift is one byte comparison away from being spotted.
+      - name: Run positioning guard
+        run: sh scripts/check-positioning.sh
