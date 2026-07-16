@@ -4,11 +4,11 @@ VirtualSMS is an account verification platform that combines real carrier mobile
 
 Built for developers and AI agents: REST API, hosted MCP server, SDKs.
 
-This package is the official Python client for **VirtualSMS SMS verification**: request a real carrier number, not a VoIP number, wait for the code, done. For the rest of the platform (proxies, the private cloud browser, number rentals), use the [REST API](https://virtualsms.io/docs) or the [hosted MCP server](https://virtualsms.io/mcp) directly. See "What this SDK does (and doesn't)" below for exactly what's implemented in this package.
+This package is the official Python client for **VirtualSMS SMS verification**: request a real carrier number, not a VoIP number, wait for the code, done. For the rest of the platform (proxies, number rentals, both live) use the [REST API](https://virtualsms.io/docs) or the [hosted MCP server](https://virtualsms.io/mcp) directly. The private cloud browser is planned, coming soon, not yet available on any surface. See "What this SDK does (and doesn't)" below for exactly what's implemented in this package.
 
 **Who it's for:** developers and AI agents automating account creation, sign-up, or verification steps (bots, growth tooling, QA pipelines, agent frameworks), anywhere you need a number a platform will actually accept.
 
-**Why VirtualSMS:** real physical SIM cards, not VoIP, so codes land on WhatsApp, Telegram, banking apps, and crypto exchanges that block virtual numbers. Pricing is public and live stock is shown before you commit, so there's no surprise unavailability after you've paid. And it's one connected account across numbers, proxies, and the cloud browser, reachable the same way whether you call the REST API, the MCP server, or an SDK.
+**Why VirtualSMS:** real physical SIM cards, not VoIP, so codes land on WhatsApp, Telegram, banking apps, and crypto exchanges that block virtual numbers. Pricing is public and live stock is shown before you commit, so there's no surprise unavailability after you've paid. It's one connected account across numbers and proxies today, reachable the same way whether you call the REST API, the MCP server, or an SDK, with a private cloud browser coming soon to complete the workflow.
 
 ## Installation
 
@@ -50,10 +50,10 @@ This package wraps VirtualSMS's **SMS verification** endpoints only:
 - Mark an activation done, or cancel it for a refund (`done`, `cancel`)
 - Look up prices for services/countries (`get_prices`)
 
-It does **not** currently wrap proxies, number rentals, or the cloud browser, even though the wider VirtualSMS platform supports all three. For those:
+It does **not** currently wrap proxies or number rentals, even though the wider VirtualSMS platform supports both today. The private cloud browser isn't live on any surface yet, coming soon. For proxies and rentals:
 
-- **REST API** (full platform, including numbers, proxies and cloud browser): [virtualsms.io/docs](https://virtualsms.io/docs)
-- **Hosted MCP server** (lets AI agents drive the full platform, including proxies and the cloud browser): [virtualsms.io/mcp](https://virtualsms.io/mcp)
+- **REST API** (full live platform: numbers, proxies, rentals; private cloud browser coming soon): [virtualsms.io/docs](https://virtualsms.io/docs)
+- **Hosted MCP server** (lets AI agents drive numbers, proxies, and rentals today; cloud browser tools planned, not yet available): [virtualsms.io/mcp](https://virtualsms.io/mcp)
 
 > Note: this package ships a `Rental` data class for forward compatibility, but no method in this SDK currently creates or manages a rental. That's on the roadmap, coming soon. Use the REST API for rentals today.
 
