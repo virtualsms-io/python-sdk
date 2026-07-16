@@ -145,8 +145,20 @@ banned_re "infra leak; never say where our fleet is" \
     "our (sims?|numbers|fleet|infrastructure|hardware) (are|is|sit|sits|live|lives) in"
 
 # --- supplier leak ------------------------------------------------------
+# SCOPE NOTE, read before copying these lines anywhere else:
+# These are FLAT name bans, which is safe ONLY because an SDK repo carries no
+# competitor-comparison content. The names below are also public COMPETITORS,
+# and naming them in competitor context ("Alternative to TextVerified", vs
+# tables, /textverified-alternative) is ALLOWED and SEO-valuable (operator
+# ruling 2026-07-02). Do NOT copy this flat ban into the website, frontend or
+# marketing-site: it would flag /textverified-alternative, the best-performing
+# page. There, ban the SUPPLY phrasing ("our TextVerified integration",
+# "sourced from X"), never the bare name.
+# Canonical rule: Vault/CLAUDE.md "No provider / supplier-name leak".
 banned "supplier leak; we sell via our own platform" "HeroSMS"
 banned "supplier leak; we sell via our own platform" "hero-sms"
+banned "supplier leak; we sell via our own platform" "TextVerified"
+banned "supplier leak; we sell via our own platform" "text-verified"
 
 # --- em-dash / en-dash --------------------------------------------------
 # Built with printf so the script stays pure ASCII and encoding-safe.
