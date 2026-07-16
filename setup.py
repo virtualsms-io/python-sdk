@@ -5,7 +5,12 @@ setup(
     version="1.0.0",
     author="VirtualSMS",
     author_email="dev@virtualsms.io",
-    description="Python SDK for VirtualSMS SMS verification — real carrier numbers, not VoIP",
+    description=(
+        "VirtualSMS is an account verification platform that combines real carrier "
+        "mobile numbers, matching-country proxies and a private cloud browser into "
+        "one connected workflow. This package is the Python SDK for SMS verification: "
+        "real carrier numbers, not VoIP, across 2500+ services in 145+ countries."
+    ),
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://virtualsms.io",

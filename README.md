@@ -4,11 +4,11 @@ VirtualSMS is an account verification platform that combines real carrier mobile
 
 Built for developers and AI agents: REST API, hosted MCP server, SDKs.
 
-This package is the official Python client for **VirtualSMS SMS verification** — request a real carrier number, not a VoIP number, wait for the code, done. For the rest of the platform (proxies, the private cloud browser, number rentals), use the [REST API](https://virtualsms.io/docs) or the [hosted MCP server](https://virtualsms.io/mcp) directly — see "What this SDK does (and doesn't)" below for exactly what's implemented in this package.
+This package is the official Python client for **VirtualSMS SMS verification**: request a real carrier number, not a VoIP number, wait for the code, done. For the rest of the platform (proxies, the private cloud browser, number rentals), use the [REST API](https://virtualsms.io/docs) or the [hosted MCP server](https://virtualsms.io/mcp) directly. See "What this SDK does (and doesn't)" below for exactly what's implemented in this package.
 
-**Who it's for:** developers and AI agents automating account creation, sign-up, or verification steps — bots, growth tooling, QA pipelines, agent frameworks — anywhere you need a number a platform will actually accept.
+**Who it's for:** developers and AI agents automating account creation, sign-up, or verification steps (bots, growth tooling, QA pipelines, agent frameworks), anywhere you need a number a platform will actually accept.
 
-**Why VirtualSMS:** real carrier-issued numbers, not VoIP, so codes land on WhatsApp, Telegram, banking apps, and crypto exchanges that block virtual numbers. Pricing is public and live stock is shown before you commit — no surprise unavailability after you've paid. And it's one connected account across numbers, proxies, and the cloud browser, reachable the same way whether you call the REST API, the MCP server, or an SDK.
+**Why VirtualSMS:** real carrier-issued numbers, not VoIP, so codes land on WhatsApp, Telegram, banking apps, and crypto exchanges that block virtual numbers. Pricing is public and live stock is shown before you commit, so there's no surprise unavailability after you've paid. And it's one connected account across numbers, proxies, and the cloud browser, reachable the same way whether you call the REST API, the MCP server, or an SDK.
 
 ## Installation
 
@@ -42,7 +42,7 @@ client.done(activation.activation_id)
 
 ## What this SDK does (and doesn't)
 
-This package wraps VirtualSMS's **SMS verification** endpoints — that's it:
+This package wraps VirtualSMS's **SMS verification** endpoints only:
 
 - Get account balance (`get_balance`)
 - Request a number for a service (`get_number`)
@@ -52,10 +52,10 @@ This package wraps VirtualSMS's **SMS verification** endpoints — that's it:
 
 It does **not** currently wrap proxies, number rentals, or the cloud browser, even though the wider VirtualSMS platform supports all three. For those:
 
-- **REST API** (full platform — numbers, proxies, cloud browser): [virtualsms.io/docs](https://virtualsms.io/docs)
+- **REST API** (full platform, including numbers, proxies and cloud browser): [virtualsms.io/docs](https://virtualsms.io/docs)
 - **Hosted MCP server** (lets AI agents drive the full platform, including proxies and the cloud browser): [virtualsms.io/mcp](https://virtualsms.io/mcp)
 
-> Note: this package ships a `Rental` data class for forward compatibility, but no method in this SDK currently creates or manages a rental — that's on the roadmap, coming soon. Use the REST API for rentals today.
+> Note: this package ships a `Rental` data class for forward compatibility, but no method in this SDK currently creates or manages a rental. That's on the roadmap, coming soon. Use the REST API for rentals today.
 
 ## Services
 
@@ -72,7 +72,7 @@ Common service codes:
 | TikTok | `lf` |
 | Twitter/X | `tw` |
 
-700+ services supported. Full list at [virtualsms.io/services](https://virtualsms.io/services).
+2500+ services supported. Full list at [virtualsms.io/services](https://virtualsms.io/services).
 
 ## Countries
 
@@ -87,7 +87,7 @@ Common country codes:
 | Netherlands | `57` |
 | Russia | `0` |
 
-30+ countries available. See [virtualsms.io/pricing](https://virtualsms.io/pricing) for all options.
+145+ countries available. See [virtualsms.io/pricing](https://virtualsms.io/pricing) for all options.
 
 ## API Methods
 
@@ -116,7 +116,7 @@ Get current pricing for services and countries.
 
 Most SMS verification services use VoIP numbers that get blocked:
 
-- WhatsApp blocks 90%+ of VoIP numbers
+- WhatsApp blocks VoIP numbers
 - Telegram flags and restricts VoIP accounts
 - Banking apps reject non-mobile numbers
 - Crypto exchanges require real carrier numbers
