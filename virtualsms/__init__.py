@@ -1,4 +1,4 @@
-"""VirtualSMS — Python SDK for SMS verification with real SIM cards."""
+"""VirtualSMS: Python SDK for SMS verification with real SIM cards."""
 
 from .client import VirtualSMS, Activation, Rental
 

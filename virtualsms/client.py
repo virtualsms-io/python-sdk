@@ -1,4 +1,4 @@
-"""VirtualSMS API client — real SIM card SMS verification."""
+"""VirtualSMS API client: real SIM card SMS verification."""
 
 import time
 import requests
@@ -147,9 +147,9 @@ class VirtualSMS:
 
         Returns:
             Tuple of (status, code). Status is one of:
-            - ("waiting", None) — SMS not yet received
-            - ("received", "438271") — SMS received, code extracted
-            - ("done", None) — Activation completed
+            - ("waiting", None): SMS not yet received
+            - ("received", "438271"): SMS received, code extracted
+            - ("done", None): Activation completed
 
         Example:
             >>> status, code = client.get_status(12345)
