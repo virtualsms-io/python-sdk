@@ -158,6 +158,11 @@ VirtualSMS's MCP server is listed across the major MCP directories:
 - **mcp.so:** [mcp.so/servers/mcp-server-virtualsms-io](https://mcp.so/servers/mcp-server-virtualsms-io)
 - **npm (MCP server package):** [virtualsms-mcp](https://www.npmjs.com/package/virtualsms-mcp)
 
+## Development
+
+Run `sh scripts/check-positioning.sh` before committing copy changes. It fails on
+stale service or country counts and other banned positioning wording.
+
 ## License
 
 MIT

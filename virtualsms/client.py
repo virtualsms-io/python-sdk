@@ -48,7 +48,7 @@ class NoNumbersError(VirtualSMSError):
 
 
 class VirtualSMS:
-    """Client for VirtualSMS API — SMS verification with real physical SIM cards.
+    """Client for VirtualSMS API — SMS verification with real carrier SIMs.
 
     VirtualSMS provides phone numbers backed by real SIM cards in European
     and US mobile networks. Unlike VoIP services, these numbers pass carrier-type
