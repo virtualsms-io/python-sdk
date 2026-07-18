@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "virtualsms"
 version = "2.0.0"
-description = "Native Python client for the VirtualSMS REST API v1: SMS verification, number rentals, and proxies."
+description = "Official Python SDK for the VirtualSMS API: SMS verification, number rentals, and matching-country proxies on real carrier-issued mobile numbers (not VoIP), across 2500+ services in 145+ countries. Includes a typed client, and helpers for polling SMS codes and managing rentals and proxies from one prepaid balance."
 readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT" }
 authors = [{ name = "VirtualSMS", email = "dev@virtualsms.io" }]
-keywords = ["sms", "verification", "virtual number", "sim card", "otp", "2fa", "proxy", "rental", "rest api"]
+keywords = ["sms-verification", "otp", "phone-verification", "virtual-number", "sms-api", "account-verification", "ai-agents", "mcp"]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Intended Audience :: Developers",
@@ -24,6 +24,7 @@ classifiers = [
   "Topic :: Communications :: Telephony",
   "Topic :: Internet :: Proxy Servers",
   "Topic :: Security",
+  "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = ["requests>=2.25.0"]
 

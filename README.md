@@ -1,12 +1,17 @@
 # VirtualSMS Python SDK
 
-VirtualSMS is an account verification platform that combines real carrier mobile numbers, matching-country proxies, and a private cloud browser into one connected workflow.
+## What is VirtualSMS?
 
-This package is the official **native Python client for the VirtualSMS REST API v1**: it talks to `https://virtualsms.io/api/v1` directly. It is not a drop-in client library for any other verification service; version 2.0.0 is a from-scratch rewrite, replacing the v1.x package that wrapped a legacy dispatcher.
+Official Python SDK for the VirtualSMS API. VirtualSMS is an account verification platform
+for individuals, developers, and AI agents: one-time SMS verification, dedicated number
+rentals, matching-country proxies, and private cloud browser sessions (beta), all behind one
+API, one MCP server, and one prepaid balance. This SDK is a native Python client over the
+REST API, backed by real carrier-issued mobile numbers (real physical SIM cards, not VoIP)
+across 2500+ services in 145+ countries.
 
-**Who it's for:** developers and AI agents automating account creation, sign-up, or verification steps (bots, growth tooling, QA pipelines, agent frameworks), anywhere you need a number a platform will actually accept.
+Built for developers and AI agents: REST API, hosted MCP server, SDKs.
 
-**Why VirtualSMS:** real physical SIM cards, not VoIP, so codes land on WhatsApp, Telegram, banking apps, and crypto exchanges that block virtual numbers. Pricing is public and live stock is shown before you commit. One connected account across numbers, rentals, and proxies today, reachable the same way whether you call the REST API, the hosted MCP server, or this SDK.
+This package talks to `https://virtualsms.io/api/v1` directly. It is not a drop-in client library for any other verification service; version 2.0.0 is a from-scratch rewrite, replacing the v1.x package that wrapped a legacy dispatcher.
 
 ## Installation
 
@@ -39,6 +44,26 @@ else:
 ```
 
 Full API reference: [virtualsms.io/docs](https://virtualsms.io/docs)
+
+## Capabilities
+
+1. One-time SMS verification. Receive a code for a service like WhatsApp, Telegram, Discord,
+   or a dating app, on demand, from $0.05 per code.
+2. Dedicated number rentals. Hold one number for 1-30 days and receive SMS from any service
+   on that number, from $0.25/day.
+3. Matching-country proxies. Pair a number with an IP from the same country, across 223
+   proxy countries, from $1.10/GB.
+4. Private cloud browser sessions (beta). Start a country-matched browser in a live viewer
+   for the signup step itself, invite-only.
+
+## Why real SIM cards
+
+VirtualSMS runs on real carrier-issued mobile numbers, backed by real physical SIM cards,
+not VoIP. Services like WhatsApp, Telegram, Discord, and dating apps run a carrier lookup
+before they send a code, and VoIP or virtual numbers fail that check more often than a real
+SIM does. A physical SIM on a real carrier network reads like any other phone on that network,
+carriers like Vodafone, O2, and T-Mobile depending on the country, which is part of why
+VirtualSMS holds a 95%+ success rate across 2500+ services in 145+ countries.
 
 ## What this SDK covers
 
@@ -107,6 +132,44 @@ A server error (5xx) on a mutating call (purchase, cancel, rotate, extend, etc.)
 
 See [`examples/`](./examples) for complete, runnable scripts: an activation flow, a rental flow, and a proxy flow.
 
+## AI agents and MCP
+
+This SDK is the API-client half: a typed wrapper an application or agent framework calls
+directly. The hosted MCP server is the separate agent-facing half, exposing the same
+capabilities as MCP tools for MCP-compatible clients like Claude and Cursor. Use this SDK when
+you're writing code that calls VirtualSMS; use the MCP server when an AI agent needs to call
+VirtualSMS itself without a code layer in between.
+
+## FAQ
+
+### What is VirtualSMS?
+
+VirtualSMS is an account verification platform for individuals, developers, and AI agents. It combines one-time SMS verification, dedicated number rentals, matching-country proxies, and private cloud browser sessions behind one API, one MCP server, and one prepaid balance.
+
+### Does VirtualSMS use real SIM cards or VoIP numbers?
+
+VirtualSMS uses real carrier-issued mobile numbers, backed by real physical SIM cards, not VoIP. Many services, including WhatsApp, Telegram, Discord, and dating apps, reject VoIP and virtual numbers at signup; a real physical SIM on a real carrier network passes that check far more often, which is reflected in a 95%+ success rate.
+
+### Which services and countries does VirtualSMS support?
+
+VirtualSMS covers 2500+ services across 145+ countries for SMS verification and number rentals, plus matching-country proxies across 223 proxy countries. Coverage spans messaging apps, social platforms, marketplaces, dating apps, and financial services.
+
+### Can I rent a number, or only buy one-time codes?
+
+Both. Buy a single one-time code from $0.05, or rent a dedicated number for 1-30 days from $0.25/day to receive SMS from any service on that number for the rental window.
+
+### Does VirtualSMS work with AI agents and MCP?
+
+Yes. VirtualSMS exposes a hosted MCP server plus a REST API and official SDKs in nine languages, so an AI agent can request a number, wait for a code, or manage a rental the same way a developer would call the API directly.
+
+### How much does VirtualSMS cost?
+
+Pricing is pay-as-you-go from one prepaid balance: SMS verification from $0.05 per code, number rentals from $0.25/day, and proxies from $1.10/GB. There is no subscription requirement.
+
+### Is there a free API key?
+
+Yes. Creating a VirtualSMS account issues an API key immediately, at no cost. You only spend from your prepaid balance when you place an order: an activation, a rental, or a proxy.
+
 ## Links
 
 ### Product
@@ -116,6 +179,7 @@ See [`examples/`](./examples) for complete, runnable scripts: an activation flow
 - **MCP server:** [virtualsms.io/mcp](https://virtualsms.io/mcp)
 - **Pricing:** [virtualsms.io/pricing](https://virtualsms.io/pricing)
 - **REST API:** [virtualsms.io/api/v1](https://virtualsms.io/api/v1)
+- **Other SDKs:** [PHP](https://packagist.org/packages/virtualsms/sdk) · [Node.js](https://www.npmjs.com/package/virtualsms-sdk) · [Ruby](https://rubygems.org/gems/virtualsms-sdk) · [.NET](https://www.nuget.org/packages/VirtualSMS) · [Go](https://pkg.go.dev/github.com/virtualsms-io/go-sdk) · [Rust](https://crates.io/crates/virtualsms) · [Swift](https://github.com/virtualsms-io/swift-sdk) · [Java](https://central.sonatype.com/artifact/io.virtualsms/virtualsms-sdk)
 - **GitHub:** [github.com/virtualsms-io](https://github.com/virtualsms-io)
 
 ### Ecosystem
