@@ -231,6 +231,9 @@ class VirtualSMS:
         if status == 429:
             raise RateLimitedError("Rate limit exceeded. Please slow down requests; never auto-retry a 429.", status)
         if status >= 500:
+            lower_message = message.lower()
+            if "out of stock" in lower_message or "no number" in lower_message or "no stock" in lower_message:
+                raise NoNumbersError(f"No numbers currently available: {message}", status)
             if mutating:
                 raise ServerError(
                     f"VirtualSMS had a server error ({status}) on a request that may have made a purchase "
@@ -384,6 +387,11 @@ class VirtualSMS:
         per the SDK spec). Never raises on timeout, returns a structured
         ``{"success": False, "error": "timeout", ...}`` result instead so the
         caller can retry or cancel.
+
+        Defaults (300s timeout / 5s poll interval) intentionally differ from
+        the MCP tool's own default (60s timeout, same 5s interval) -- a
+        human/script blocking on this SDK call is typically willing to wait
+        longer than an LLM agent loop, per the SDK spec.
         """
         start = time.monotonic()
         initial = self.get_order(order_id)
@@ -1029,8 +1037,10 @@ class VirtualSMS:
     ) -> Dict[str, Any]:
         """Start a country-matched cloud browser session the caller drives manually via ``viewer_url``.
 
-        Beta, invite-only. On a beta-gate signal (403/404/503) this raises a
-        clean invite message rather than a raw HTTP error.
+        BETA - requires the invite-only Sessions feature; may return
+        403/503 if not enabled on the account. On a beta-gate signal
+        (403/404/503) this raises a clean invite message rather than a raw
+        HTTP error.
         """
         body = {
             "serviceName": service_name,
