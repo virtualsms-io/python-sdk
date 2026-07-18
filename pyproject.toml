@@ -33,8 +33,8 @@ dev = ["pytest>=7.0.0"]
 [project.urls]
 Homepage = "https://virtualsms.io"
 Documentation = "https://virtualsms.io/docs"
-Source = "https://github.com/virtualsms-io/virtualsms-python-sdk"
-"Bug Tracker" = "https://github.com/virtualsms-io/virtualsms-python-sdk/issues"
+Source = "https://github.com/virtualsms-io/python-sdk"
+"Bug Tracker" = "https://github.com/virtualsms-io/python-sdk/issues"
 
 [tool.setuptools.packages.find]
 include = ["virtualsms*"]
