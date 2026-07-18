@@ -21,10 +21,12 @@ pip install virtualsms
 
 ## Quick start
 
+<!-- TODO: re-point to /dashboard once the frontend migration ships -->
+
 ```python
 from virtualsms import VirtualSMS
 
-# Get your API key at https://virtualsms.io/dashboard (Settings -> API Keys)
+# Get your API key at https://virtualsms.io (Settings -> API Keys)
 client = VirtualSMS("vsms_your_api_key")
 
 # 1. Check balance
