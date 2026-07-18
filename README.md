@@ -1,14 +1,12 @@
 # VirtualSMS Python SDK
 
-VirtualSMS is an account verification platform that combines real carrier mobile numbers, matching-country proxies and a private cloud browser into one connected workflow.
+VirtualSMS is an account verification platform that combines real carrier mobile numbers, matching-country proxies, and a private cloud browser into one connected workflow.
 
-Built for developers and AI agents: REST API, hosted MCP server, SDKs.
-
-This package is the official Python client for **VirtualSMS SMS verification**: request a real carrier number, not a VoIP number, wait for the code, done. For the rest of the platform (proxies, number rentals, both live) use the [REST API](https://virtualsms.io/docs) or the [hosted MCP server](https://virtualsms.io/mcp) directly. The private cloud browser is planned, coming soon, not yet available on any surface. See "What this SDK does (and doesn't)" below for exactly what's implemented in this package.
+This package is the official **native Python client for the VirtualSMS REST API v1**: it talks to `https://virtualsms.io/api/v1` directly. It is not a drop-in client library for any other verification service; version 2.0.0 is a from-scratch rewrite, replacing the v1.x package that wrapped a legacy dispatcher.
 
 **Who it's for:** developers and AI agents automating account creation, sign-up, or verification steps (bots, growth tooling, QA pipelines, agent frameworks), anywhere you need a number a platform will actually accept.
 
-**Why VirtualSMS:** real physical SIM cards, not VoIP, so codes land on WhatsApp, Telegram, banking apps, and crypto exchanges that block virtual numbers. Pricing is public and live stock is shown before you commit, so there's no surprise unavailability after you've paid. It's one connected account across numbers and proxies today, reachable the same way whether you call the REST API, the MCP server, or an SDK, with a private cloud browser coming soon to complete the workflow.
+**Why VirtualSMS:** real physical SIM cards, not VoIP, so codes land on WhatsApp, Telegram, banking apps, and crypto exchanges that block virtual numbers. Pricing is public and live stock is shown before you commit. One connected account across numbers, rentals, and proxies today, reachable the same way whether you call the REST API, the hosted MCP server, or this SDK.
 
 ## Installation
 
@@ -16,126 +14,98 @@ This package is the official Python client for **VirtualSMS SMS verification**: 
 pip install virtualsms
 ```
 
-## Quick Start
+## Quick start
 
 ```python
 from virtualsms import VirtualSMS
 
-# Get your API key at https://virtualsms.io (Settings → API Keys)
+# Get your API key at https://virtualsms.io/dashboard (Settings -> API Keys)
 client = VirtualSMS("vsms_your_api_key")
 
-# Check balance
+# 1. Check balance
 balance = client.get_balance()
-print(f"Balance: ${balance:.2f}")
+print(f"Balance: ${balance['balance_usd']:.2f}")
 
-# Get a number for WhatsApp verification
-activation = client.get_number("wa", country=22)  # 22 = UK
-print(f"Use this number: {activation.phone}")
+# 2. Buy a number for WhatsApp verification in the UK
+order = client.create_order("wa", "GB")
+print(f"Use this number: {order['phone_number']}")
 
-# Wait for the verification code
-code = client.wait_for_code(activation.activation_id)
-print(f"Verification code: {code}")
-
-# Mark as done
-client.done(activation.activation_id)
+# 3. Wait for the verification code
+result = client.wait_for_sms(order["order_id"])
+if result["success"]:
+    print(f"Code: {result['code']}")
+else:
+    print("Timed out, try get_sms(order_id) again later or cancel_order(order_id) for a refund.")
 ```
 
-## What this SDK does (and doesn't)
+Full API reference: [virtualsms.io/docs](https://virtualsms.io/docs)
 
-This package wraps VirtualSMS's **SMS verification** endpoints only:
+## What this SDK covers
 
-- Get account balance (`get_balance`)
-- Request a number for a service (`get_number`)
-- Poll or wait for the incoming SMS code (`get_status`, `wait_for_code`)
-- Mark an activation done, or cancel it for a refund (`done`, `cancel`)
-- Look up prices for services/countries (`get_prices`)
+All 46+ non-gated REST v1 methods across seven groups: activations/orders, rentals (full-access and platform tiers), proxies, account, one session-start method, one standalone public tool, and webhooks.
 
-It does **not** currently wrap proxies or number rentals, even though the wider VirtualSMS platform supports both today. The private cloud browser isn't live on any surface yet, coming soon. For proxies and rentals:
+| Group | Examples |
+|---|---|
+| Activations / Orders | `list_services`, `get_price`, `create_order`, `wait_for_sms`, `cancel_order`, `swap_number`, `search_services`, `find_cheapest` |
+| Rentals | `rentals_available`, `create_rental`, `list_rentals`, `extend_rental`, `cancel_rental` |
+| Proxies | `list_proxy_catalog`, `buy_proxy`, `rotate_proxy`, `set_proxy_targeting`, `generate_proxy_endpoint` |
+| Account | `get_balance`, `get_profile`, `get_transactions`, `get_stats` |
+| Session | `start_manual_registration_session` (invite-only beta) |
+| Tools | `check_number` |
+| Webhooks | `list_webhooks`, `create_webhook`, `update_webhook`, `test_webhook`, `list_webhook_deliveries` |
 
-- **REST API** (full live platform: numbers, proxies, rentals; private cloud browser coming soon): [virtualsms.io/docs](https://virtualsms.io/docs)
-- **Hosted MCP server** (lets AI agents drive numbers, proxies, and rentals today; cloud browser tools planned, not yet available): [virtualsms.io/mcp](https://virtualsms.io/mcp)
+Not covered (by design, gated on the API itself): `release_rental` (fee policy pending), interactive browser session control beyond starting one, and account registration/login (account creation is a web-only flow).
 
-> Note: this package ships a `Rental` data class for forward compatibility, but no method in this SDK currently creates or manages a rental. That's on the roadmap, coming soon. Use the REST API for rentals today.
+## Rentals
 
-## Services
-
-Common service codes:
-
-| Service | Code |
-|---------|------|
-| WhatsApp | `wa` |
-| Telegram | `tg` |
-| Google | `go` |
-| Instagram | `ig` |
-| Facebook | `fb` |
-| Discord | `ds` |
-| TikTok | `lf` |
-| Twitter/X | `tw` |
-
-2500+ services supported. Full list at [virtualsms.io/services](https://virtualsms.io/services).
-
-## Countries
-
-Common country codes:
-
-| Country | Code |
-|---------|------|
-| United States | `187` |
-| United Kingdom | `22` |
-| Germany | `12` |
-| France | `33` |
-| Netherlands | `57` |
-| Russia | `0` |
-
-145+ countries available. See [virtualsms.io/pricing](https://virtualsms.io/pricing) for all options.
-
-## API Methods
-
-### `get_balance() → float`
-Returns current account balance in USD.
-
-### `get_number(service, country) → Activation`
-Request a phone number for verification. Returns an `Activation` with `activation_id` and `phone`.
-
-### `get_status(activation_id) → (status, code)`
-Check if SMS has arrived. Returns `("waiting", None)` or `("received", "438271")`.
-
-### `wait_for_code(activation_id, timeout=300) → str | None`
-Poll for SMS code with automatic retry. Returns the code or None on timeout.
-
-### `done(activation_id)`
-Mark activation as complete after using the code.
-
-### `cancel(activation_id)`
-Cancel activation and get automatic refund.
-
-### `get_prices(service=None, country=None)`
-Get current pricing for services and countries.
-
-## Why Real Carrier Numbers?
-
-Most SMS verification services use VoIP numbers that get blocked:
-
-- WhatsApp blocks VoIP numbers
-- Telegram flags and restricts VoIP accounts
-- Banking apps reject non-mobile numbers
-- Crypto exchanges require real carrier numbers
-
-VirtualSMS uses real physical SIM cards, not VoIP. [Learn more](https://virtualsms.io).
-
-## Migrating from DaisySMS?
-
-VirtualSMS API is fully compatible with the sms-activate protocol. If you used DaisySMS, change one line:
+Two tiers, identical refund terms (full refund within 20 minutes of purchase, before the first SMS):
 
 ```python
-# Before
-client = VirtualSMS("your_key", base_url="https://daisysms.com/stubs/handler_api.php")
+# Full Access: local SIM inventory, works with any service
+rental = client.create_rental(tier="full_access", country="GB", duration_hours=24, service="wa")
 
-# After
-client = VirtualSMS("your_key")  # defaults to virtualsms.io
+# Platform: sourced via our global supplier network, locked to one service per number
+rental = client.create_rental(tier="platform", country="GB", duration_hours=24, service="wa")
+
+client.extend_rental(rental["rental_id"], duration_hours=24)
+client.cancel_rental(rental["rental_id"])
 ```
 
-See the [migration guide](https://virtualsms.io/daisysms-alternative).
+## Proxies
+
+```python
+catalog = client.list_proxy_catalog()
+proxy = client.buy_proxy(pool_type="residential", gb=1, country_code="GB")
+usage = client.get_proxy_usage(proxy["proxy_id"])
+endpoint = client.generate_proxy_endpoint(proxy["proxy_id"], country_code="GB")
+print(endpoint["endpoints"][0])
+```
+
+## Errors
+
+Every method raises a typed subclass of `VirtualSMSError`:
+
+```python
+from virtualsms import VirtualSMS, InsufficientBalanceError, NoNumbersError, BadApiKeyError, RateLimitedError
+
+client = VirtualSMS("vsms_your_api_key")
+try:
+    order = client.create_order("wa", "GB")
+except NoNumbersError:
+    print("No stock for this service/country right now.")
+except InsufficientBalanceError:
+    print("Top up at https://virtualsms.io")
+except BadApiKeyError:
+    print("Bad API key.")
+except RateLimitedError:
+    print("Slow down and retry later.")
+```
+
+A server error (5xx) on a mutating call (purchase, cancel, rotate, extend, etc.) is never retried automatically by this SDK, because the operation may have completed server-side despite the error. Verify with a read call (`list_orders`, `get_order`, `list_rentals`) before retrying by hand. GET requests get a bounded automatic retry (up to 3 attempts) on network errors and 5xx responses only.
+
+## Examples
+
+See [`examples/`](./examples) for complete, runnable scripts: an activation flow, a rental flow, and a proxy flow.
 
 ## Links
 
@@ -160,8 +130,16 @@ VirtualSMS's MCP server is listed across the major MCP directories:
 
 ## Development
 
-Run `sh scripts/check-positioning.sh` before committing copy changes. It fails on
-stale service or country counts and other banned positioning wording.
+Run `sh scripts/check-positioning.sh` before committing copy changes. It fails on stale service or country counts and other banned positioning wording.
+
+```bash
+pip install -e ".[dev]"
+pytest
+```
+
+## Migrating from v1.x
+
+v1.x wrapped a legacy sms-activate-compatible dispatcher (`getBalance`, `getNumber`, `getStatus`, etc). v2.0.0 is a full rewrite talking to `/api/v1/*` REST endpoints directly and is not backward compatible with the v1.x method names. See `CHANGELOG.md` for the full method mapping.
 
 ## License
 
