@@ -53,7 +53,7 @@ Full API reference: [virtualsms.io/docs](https://virtualsms.io/docs)
    or a dating app, on demand, from $0.05 per code.
 2. Dedicated number rentals. Hold one number for 1-30 days and receive SMS from any service
    on that number, from $0.25/day.
-3. Matching-country proxies. Pair a number with an IP from the same country, across 223
+3. Matching-country proxies. Pair a number with an IP from the same country, across 190+
    proxy countries, from $1.10/GB.
 4. Private cloud browser sessions (beta). Start a country-matched browser in a live viewer
    for the signup step itself, invite-only.
@@ -154,7 +154,7 @@ VirtualSMS uses real carrier-issued mobile numbers, backed by real physical SIM 
 
 ### Which services and countries does VirtualSMS support?
 
-VirtualSMS covers 2500+ services across 145+ countries for SMS verification and number rentals, plus matching-country proxies across 223 proxy countries. Coverage spans messaging apps, social platforms, marketplaces, dating apps, and financial services.
+VirtualSMS covers 2500+ services across 145+ countries for SMS verification and number rentals, plus matching-country proxies across 190+ proxy countries. Coverage spans messaging apps, social platforms, marketplaces, dating apps, and financial services.
 
 ### Can I rent a number, or only buy one-time codes?
 
